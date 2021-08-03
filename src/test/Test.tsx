@@ -1,6 +1,6 @@
 import React from "react";
 import { gql } from "@apollo/client";
-import { useGetUserQuery } from "./generated/graphql";
+import { useGetUserQuery } from "../generated/graphql";
 
 const GET_USER_BY_ID = gql`
   query getUser($id: ID!) {
@@ -24,9 +24,9 @@ const Test = () => {
     if (error) {
       return <p>error</p>;
     }
-
-    console.log(data);
   }
+  console.log(data);
+  return <p>xxxx</p>;
 };
 
 export { Test };
