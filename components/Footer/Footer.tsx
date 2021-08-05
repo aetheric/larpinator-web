@@ -2,14 +2,14 @@
 import React from "react";
 import PropTypes from "prop-types";
 // @material-ui/core components
-import { makeStyles } from "@material-ui/core/styles";
+import {makeStyles, Theme} from "@material-ui/core/styles";
 import ListItem from "@material-ui/core/ListItem";
 import List from "@material-ui/core/List";
 // core components
 import styles from "assets/jss/nextjs-material-dashboard/components/footerStyle";
 
-export default function Footer(props) {
-  const useStyles = makeStyles(styles);
+export default function Footer(props: any) {
+  const useStyles = makeStyles<Theme>(() => styles as any);
   const classes = useStyles();
   return (
     <footer className={classes.footer}>
@@ -40,15 +40,7 @@ export default function Footer(props) {
         </div>
         <p className={classes.right}>
           <span>
-            &copy; {1900 + new Date().getYear()}{" "}
-            <a
-              href="https://www.creative-tim.com?ref=njsmd-footer"
-              target="_blank"
-              className={classes.a}
-            >
-              Creative Tim
-            </a>
-            , made with love for a better web
+            made with love for a better web
           </span>
         </p>
       </div>

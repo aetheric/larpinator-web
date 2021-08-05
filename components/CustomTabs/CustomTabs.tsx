@@ -5,7 +5,7 @@ import classNames from "classnames";
 import PropTypes from "prop-types";
 
 // material-ui components
-import { makeStyles } from "@material-ui/core/styles";
+import {makeStyles, Theme} from "@material-ui/core/styles";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 // core components
@@ -15,12 +15,12 @@ import CardHeader from "components/Card/CardHeader";
 
 import styles from "assets/jss/nextjs-material-dashboard/components/customTabsStyle";
 
-export default function CustomTabs(props) {
+export default function CustomTabs(props: any) {
   const [value, setValue] = React.useState(0);
   const handleChange = (event, value) => {
     setValue(value);
   };
-  const useStyles = makeStyles(styles);
+    const useStyles = makeStyles<Theme>(() => styles as any);
   const classes = useStyles();
   const { headerColor, plainTabs, tabs, title, rtlActive } = props;
   const cardTitle = classNames({

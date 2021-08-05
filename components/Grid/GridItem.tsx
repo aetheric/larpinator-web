@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
+import {GridProps} from "@material-ui/core/Grid/Grid";
 
 const styles = {
   grid: {
@@ -11,7 +12,7 @@ const styles = {
   },
 };
 
-export default function GridItem(props) {
+export default function GridItem(props: GridProps) {
   const useStyles = makeStyles(styles);
   const classes = useStyles();
   const { children, ...rest } = props;

@@ -12,7 +12,7 @@ import imagine4 from "assets/img/sidebar-4.jpg";
 
 import Button from "components/CustomButtons/Button";
 
-export default function FixedPlugin(props) {
+export default function FixedPlugin(props: any) {
   const [classes, setClasses] = React.useState("dropdown show");
   const [bg_checked, setBg_checked] = React.useState(true);
   const [bgImage, setBgImage] = React.useState(props.bgImage);

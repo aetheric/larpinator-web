@@ -5,15 +5,16 @@ import classNames from "classnames";
 import PropTypes from "prop-types";
 
 // material-ui components
-import { makeStyles } from "@material-ui/core/styles";
+import {makeStyles, Theme} from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 
 import styles from "assets/jss/nextjs-material-dashboard/components/buttonStyle";
 
-export default function RegularButton(props) {
-  const useStyles = makeStyles(styles);
+export default function RegularButton(props : any) {
+  const useStyles = makeStyles<Theme>(() => styles as any);
   const classes = useStyles();
   const {
+    fullwidth,
     color,
     round,
     children,
@@ -58,6 +59,7 @@ RegularButton.propTypes = {
     "transparent",
   ]),
   size: PropTypes.oneOf(["sm", "lg"]),
+  fullWidth: PropTypes.bool,
   simple: PropTypes.bool,
   round: PropTypes.bool,
   disabled: PropTypes.bool,

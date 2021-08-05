@@ -3,7 +3,7 @@ import React from "react";
 // nodejs library to set properties for components
 import PropTypes from "prop-types";
 // @material-ui/core components
-import { makeStyles } from "@material-ui/core/styles";
+import {makeStyles, Theme} from "@material-ui/core/styles";
 // @material-ui/icons
 import AddAlert from "@material-ui/icons/AddAlert";
 // layout for this page
@@ -49,7 +49,7 @@ const styles = {
 };
 
 function Notifications() {
-  const useStyles = makeStyles(styles);
+  const useStyles = makeStyles<Theme>(() => styles as any);
   const classes = useStyles();
   const [tl, setTL] = React.useState(false);
   const [tc, setTC] = React.useState(false);
@@ -67,7 +67,7 @@ function Notifications() {
       }
     };
   });
-  const showNotification = (place) => {
+  const showNotification = (place: string) => {
     switch (place) {
       case "tl":
         if (!tl) {

@@ -1,7 +1,7 @@
 /*eslint-disable*/
 import React from "react";
 // @material-ui/core components
-import { makeStyles } from "@material-ui/core/styles";
+import {makeStyles, Theme} from "@material-ui/core/styles";
 import Hidden from "@material-ui/core/Hidden";
 // layout for this page
 import Admin from "layouts/Admin";
@@ -15,7 +15,7 @@ import CardBody from "components/Card/CardBody";
 import styles from "assets/jss/nextjs-material-dashboard/views/iconsStyle";
 
 function Icons() {
-  const useStyles = makeStyles(styles);
+  const useStyles = makeStyles<Theme>(() => styles as any);
   const classes = useStyles();
   return (
     <GridContainer>
