@@ -8,7 +8,7 @@ import {
   hexToRgb,
 } from "assets/jss/nextjs-material-dashboard";
 
-const dropdownStyle = (theme) => ({
+const dropdownStyle = (theme: any) => ({
   buttonLink: {
     [theme.breakpoints.down("md")]: {
       display: "flex",

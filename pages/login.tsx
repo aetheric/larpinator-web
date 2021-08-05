@@ -136,7 +136,6 @@ export default function LoginPage(props: any) {
             </GridItem>
           </GridContainer>
         </div>
-        <Footer whiteFont />
       </div>
     </div>
   );

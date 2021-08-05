@@ -51,7 +51,7 @@ Router.events.on("routeChangeError", () => {
   document.body.classList.remove("body-page-transition");
 });
 
-function MyApp({ Component, pageProps }: AppProps) {
+function MyApp({ Component, router, pageProps }: AppProps) {
   return (
       <React.Fragment>
         <Head>
@@ -59,11 +59,15 @@ function MyApp({ Component, pageProps }: AppProps) {
               name="viewport"
               content="width=device-width, initial-scale=1, shrink-to-fit=no"
           />
-          <title>NextJS Material Dashboard by Creative Tim</title>
+          <title>Larpinator APP</title>
         </Head>
-        <Admin>
-          <Component {...pageProps} />
-        </Admin>
+          {router.pathname.includes('login') ? 
+              <Component {...pageProps} /> :
+              <Admin>
+                  <Component {...pageProps} />
+              </Admin>
+          }
+
       </React.Fragment>
   );
 }
