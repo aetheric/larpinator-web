@@ -2,7 +2,7 @@ import {
   drawerWidth,
   transition,
   container,
-} from "assets/jss/nextjs-material-dashboard.js";
+} from "assets/jss/nextjs-material-dashboard";
 
 const appStyle = (theme) => ({
   wrapper: {

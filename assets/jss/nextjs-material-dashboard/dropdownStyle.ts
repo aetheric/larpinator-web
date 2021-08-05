@@ -6,7 +6,7 @@ import {
   blackColor,
   grayColor,
   hexToRgb,
-} from "assets/jss/nextjs-material-dashboard.js";
+} from "assets/jss/nextjs-material-dashboard";
 
 const dropdownStyle = (theme) => ({
   buttonLink: {

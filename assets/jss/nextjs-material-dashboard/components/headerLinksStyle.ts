@@ -2,9 +2,9 @@ import {
   defaultFont,
   dangerColor,
   whiteColor,
-} from "assets/jss/nextjs-material-dashboard.js";
+} from "assets/jss/nextjs-material-dashboard";
 
-import dropdownStyle from "assets/jss/nextjs-material-dashboard/dropdownStyle.js";
+import dropdownStyle from "assets/jss/nextjs-material-dashboard/dropdownStyle";
 
 const headerLinksStyle = (theme) => ({
   ...dropdownStyle(theme),

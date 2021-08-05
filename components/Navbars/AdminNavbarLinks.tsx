@@ -20,7 +20,7 @@ import CustomInput from "components/CustomInput/CustomInput";
 import Button from "components/CustomButtons/Button";
 import useWindowSize from "components/Hooks/useWindowSize";
 
-import styles from "assets/jss/nextjs-material-dashboard/components/headerLinksStyle.js";
+import styles from "assets/jss/nextjs-material-dashboard/components/headerLinksStyle";
 
 export default function AdminNavbarLinks() {
   const size = useWindowSize();

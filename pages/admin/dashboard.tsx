@@ -2,7 +2,7 @@ import React from "react";
 // react plugin for creating charts
 import ChartistGraph from "react-chartist";
 // @material-ui/core
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, Theme } from "@material-ui/core/styles";
 import Icon from "@material-ui/core/Icon";
 // @material-ui/icons
 import Store from "@material-ui/icons/Store";
@@ -37,12 +37,12 @@ import {
   dailySalesChart,
   emailsSubscriptionChart,
   completedTasksChart,
-} from "variables/charts.js";
+} from "variables/charts";
 
-import styles from "assets/jss/nextjs-material-dashboard/views/dashboardStyle.js";
+import styles from "assets/jss/nextjs-material-dashboard/views/dashboardStyle";
 
 function Dashboard() {
-  const useStyles = makeStyles(styles);
+  const useStyles = makeStyles<Theme>(() => styles as any);
   const classes = useStyles();
   return (
     <div>

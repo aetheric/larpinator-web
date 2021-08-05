@@ -13,7 +13,7 @@ import {
   grayColor,
   blackColor,
   hexToRgb,
-} from "assets/jss/nextjs-material-dashboard.js";
+} from "assets/jss/nextjs-material-dashboard";
 
 const sidebarStyle = (theme) => ({
   drawerPaper: {

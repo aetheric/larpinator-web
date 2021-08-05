@@ -15,7 +15,7 @@ import AdminNavbarLinks from "./AdminNavbarLinks";
 import RTLNavbarLinks from "./RTLNavbarLinks";
 import Button from "components/CustomButtons/Button";
 
-import styles from "assets/jss/nextjs-material-dashboard/components/headerStyle.js";
+import styles from "assets/jss/nextjs-material-dashboard/components/headerStyle";
 
 export default function Header(props) {
   // used for checking current route

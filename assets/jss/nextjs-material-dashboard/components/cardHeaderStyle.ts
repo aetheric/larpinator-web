@@ -7,7 +7,7 @@ import {
   roseCardHeader,
   darkCardHeader,
   whiteColor,
-} from "assets/jss/nextjs-material-dashboard.js";
+} from "assets/jss/nextjs-material-dashboard";
 
 const cardHeaderStyle = {
   cardHeader: {

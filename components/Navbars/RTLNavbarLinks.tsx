@@ -19,7 +19,7 @@ import CustomInput from "components/CustomInput/CustomInput";
 import Button from "components/CustomButtons/Button";
 import useWindowSize from "components/Hooks/useWindowSize";
 
-import styles from "assets/jss/nextjs-material-dashboard/components/rtlHeaderLinksStyle.js";
+import styles from "assets/jss/nextjs-material-dashboard/components/rtlHeaderLinksStyle";
 
 export default function RTLNavbarLinks() {
   const size = useWindowSize();
