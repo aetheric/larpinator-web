@@ -21,16 +21,32 @@ import App, { AppProps } from "next/app";
 import Head from "next/head";
 import Router from "next/router";
 import Admin from "layouts/Admin";
-import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
+import { createStore } from "redux";
+import {
+  ApolloClient,
+  ApolloProvider,
+  gql,
+  InMemoryCache,
+} from "@apollo/client";
+import Cookies from "js-cookie";
+
+const token = Cookies.get("token");
 
 const client = new ApolloClient({
   uri: "http://localhost:3000/graphql",
   cache: new InMemoryCache(),
+  headers: {
+    authorization: token ? `Bearer ${token}` : "",
+  },
 });
 
 import PageChange from "components/PageChange/PageChange";
 
 import "assets/css/nextjs-material-dashboard.css?v=1.1.0";
+import {
+  useGetCurrentUserQuery,
+  useGetUserQuery,
+} from "../src/generated/graphql";
 
 Router.events.on("routeChangeStart", (url) => {
   console.log(`Loading: ${url}`);
@@ -79,6 +95,24 @@ function MyApp({ Component, router, pageProps }: AppProps) {
       </ApolloProvider>
     </React.Fragment>
   );
+}
+
+const GET_CURRENT_USER = gql`
+  query getCurrentUser {
+    getCurrentUser {
+      id
+      name
+      email
+      isActive
+    }
+  }
+`;
+
+// This gets called on every request
+export async function getStaticProps(context: any) {
+  return {
+    props: { xxx: "xxx" }, // will be passed to the page component as props
+  };
 }
 
 export default MyApp;

@@ -49,6 +49,7 @@ export type MutationLoginArgs = {
 export type Query = {
   __typename?: "Query";
   getUserById: User;
+  getCurrentUser: User;
 };
 
 export type QueryGetUserByIdArgs = {
@@ -78,6 +79,15 @@ export type User = {
   deletedAt: Scalars["DateTime"];
 };
 
+export type GetCurrentUserQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetCurrentUserQuery = { __typename?: "Query" } & {
+  getCurrentUser: { __typename?: "User" } & Pick<
+    User,
+    "id" | "name" | "email" | "isActive"
+  >;
+};
+
 export type LoginMutationVariables = Exact<{
   input: LoginInput;
 }>;
@@ -97,6 +107,50 @@ export type GetUserQuery = { __typename?: "Query" } & {
   getUserById: { __typename?: "User" } & Pick<User, "id" | "email">;
 };
 
+export const GetCurrentUserDocument = gql`
+  query getCurrentUser {
+    getCurrentUser {
+      id
+      name
+      email
+      isActive
+    }
+  }
+`;
+export function useGetCurrentUserQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    GetCurrentUserQuery,
+    GetCurrentUserQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetCurrentUserQuery, GetCurrentUserQueryVariables>(
+    GetCurrentUserDocument,
+    options
+  );
+}
+export function useGetCurrentUserLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetCurrentUserQuery,
+    GetCurrentUserQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetCurrentUserQuery, GetCurrentUserQueryVariables>(
+    GetCurrentUserDocument,
+    options
+  );
+}
+export type GetCurrentUserQueryHookResult = ReturnType<
+  typeof useGetCurrentUserQuery
+>;
+export type GetCurrentUserLazyQueryHookResult = ReturnType<
+  typeof useGetCurrentUserLazyQuery
+>;
+export type GetCurrentUserQueryResult = Apollo.QueryResult<
+  GetCurrentUserQuery,
+  GetCurrentUserQueryVariables
+>;
 export const LoginDocument = gql`
   mutation Login($input: LoginInput!) {
     login(input: $input) {
