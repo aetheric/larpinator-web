@@ -6,9 +6,10 @@ import EmailIcon from "@material-ui/icons/Email";
 import Card from "components/Card/Card";
 import CardBody from "components/Card/CardBody";
 import CardHeader from "components/Card/CardHeader";
-import CardFooter from "components/Card/CardFooter";
 import LockIcon from "@material-ui/icons/Lock";
 import { useFormik } from "formik";
+import Cookies from "js-cookie";
+import Router from "next/router";
 
 import styles from "assets/jss/nextjs-material-dashboard/views/loginPage";
 import { gql } from "@apollo/client";
@@ -27,6 +28,7 @@ const LOGIN = gql`
 
 export default function LoginPage(props: any) {
   const [cardAnimaton, setCardAnimation] = React.useState("cardHidden");
+  const [loginUser, setLoginUser] = React.useState("");
   setTimeout(function () {
     setCardAnimation("");
   }, 700);
@@ -45,7 +47,12 @@ export default function LoginPage(props: any) {
             password: values.password,
           },
         },
-      }).then((r) => console.log(r));
+      }).then((r) => {
+        if (r.data?.login.accessToken) {
+          Cookies.set("token", r.data.login.accessToken);
+          Router.push("/admin/dashboard");
+        }
+      });
     },
   });
 
@@ -64,55 +71,63 @@ export default function LoginPage(props: any) {
         <div className={classes.container}>
           <Container maxWidth="sm">
             <Card className={classes[cardAnimaton]}>
-              <form
-                className={classes.form}
-                onSubmit={(event) => {
-                  event.preventDefault();
-                  formik.handleSubmit(event);
-                }}
-              >
-                <CardHeader color="primary" className={classes.cardHeader}>
-                  <h4>Login to larpinator</h4>
-                </CardHeader>
-                <CardBody>
-                  <Box marginBottom={2}>
-                    <TextField
-                      placeholder="email"
-                      fullWidth
-                      name="email"
-                      label="email"
-                      InputProps={{
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <EmailIcon />
-                          </InputAdornment>
-                        ),
-                      }}
-                    />
-                  </Box>
-                  <Box marginBottom={2}>
-                    <TextField
-                      placeholder="password"
-                      fullWidth
-                      name="password"
-                      type="password"
-                      autoComplete="current-password"
-                      InputProps={{
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <LockIcon />
-                          </InputAdornment>
-                        ),
-                      }}
-                    />
-                  </Box>
-                </CardBody>
-                <CardFooter className={classes.cardFooter}>
-                  <Button color="primary" type="submit">
-                    Get started
-                  </Button>
-                </CardFooter>
-              </form>
+              <CardHeader color="primary" className={classes.cardHeader}>
+                <h4>Login to larpinator</h4>
+              </CardHeader>
+              <CardBody>
+                {!loginUser ? (
+                  <form
+                    className={classes.form}
+                    onSubmit={(event) => {
+                      event.preventDefault();
+                      formik.handleSubmit(event);
+                    }}
+                  >
+                    <Box marginBottom={2}>
+                      <TextField
+                        placeholder="email"
+                        fullWidth
+                        name="email"
+                        label="email"
+                        value={formik.values.email}
+                        onChange={formik.handleChange}
+                        InputProps={{
+                          endAdornment: (
+                            <InputAdornment position="end">
+                              <EmailIcon />
+                            </InputAdornment>
+                          ),
+                        }}
+                      />
+                    </Box>
+                    <Box marginBottom={2}>
+                      <TextField
+                        placeholder="password"
+                        fullWidth
+                        name="password"
+                        type="password"
+                        value={formik.values.password}
+                        onChange={formik.handleChange}
+                        autoComplete="current-password"
+                        InputProps={{
+                          endAdornment: (
+                            <InputAdornment position="end">
+                              <LockIcon />
+                            </InputAdornment>
+                          ),
+                        }}
+                      />
+                    </Box>
+                    <Box textAlign="center">
+                      <Button color="primary" type="submit">
+                        Get started
+                      </Button>
+                    </Box>
+                  </form>
+                ) : (
+                  <p>loggedin</p>
+                )}
+              </CardBody>
             </Card>
           </Container>
         </div>
