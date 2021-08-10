@@ -17,14 +17,11 @@
 */
 import React from "react";
 import ReactDOM from "react-dom";
-import App, {AppProps} from "next/app";
+import App, { AppProps } from "next/app";
 import Head from "next/head";
 import Router from "next/router";
 import Admin from "layouts/Admin";
-import {
-  ApolloClient, ApolloProvider,
-  InMemoryCache,
-} from "@apollo/client";
+import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 
 const client = new ApolloClient({
   uri: "http://localhost:3000/graphql",
@@ -33,7 +30,6 @@ const client = new ApolloClient({
 
 import PageChange from "components/PageChange/PageChange";
 
-
 import "assets/css/nextjs-material-dashboard.css?v=1.1.0";
 
 Router.events.on("routeChangeStart", (url) => {
@@ -41,6 +37,7 @@ Router.events.on("routeChangeStart", (url) => {
   document.body.classList.add("body-page-transition");
   ReactDOM.render(
     <PageChange path={url} />,
+
     document.getElementById("page-transition")
   );
 });
@@ -63,23 +60,24 @@ Router.events.on("routeChangeError", () => {
 
 function MyApp({ Component, router, pageProps }: AppProps) {
   return (
-      <React.Fragment>
-        <Head>
-          <meta
-              name="viewport"
-              content="width=device-width, initial-scale=1, shrink-to-fit=no"
-          />
-          <title>Larpinator APP</title>
-        </Head>
-        <ApolloProvider client={client}>
-          {router.pathname.includes('login') ? 
-              <Component {...pageProps} /> :
-              <Admin>
-                  <Component {...pageProps} />
-              </Admin>
-          }
-        </ApolloProvider>
-      </React.Fragment>
+    <React.Fragment>
+      <Head>
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no"
+        />
+        <title>Larpinator APP</title>
+      </Head>
+      <ApolloProvider client={client}>
+        {router.pathname.includes("login") ? (
+          <Component {...pageProps} />
+        ) : (
+          <Admin>
+            <Component {...pageProps} />
+          </Admin>
+        )}
+      </ApolloProvider>
+    </React.Fragment>
   );
 }
 
