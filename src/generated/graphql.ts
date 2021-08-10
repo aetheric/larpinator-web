@@ -69,14 +69,24 @@ export type RegisterStatusDto = {
 export type User = {
   __typename?: "User";
   id: Scalars["ID"];
-  firstName: Scalars["String"];
-  lastName: Scalars["String"];
+  name: Scalars["String"];
   email: Scalars["String"];
   password: Scalars["String"];
   isActive: Scalars["Boolean"];
   createdAt: Scalars["DateTime"];
   updatedAt: Scalars["DateTime"];
   deletedAt: Scalars["DateTime"];
+};
+
+export type LoginMutationVariables = Exact<{
+  input: LoginInput;
+}>;
+
+export type LoginMutation = { __typename?: "Mutation" } & {
+  login: { __typename?: "LoginStatusDto" } & Pick<
+    LoginStatusDto,
+    "accessToken"
+  >;
 };
 
 export type GetUserQueryVariables = Exact<{
@@ -87,6 +97,35 @@ export type GetUserQuery = { __typename?: "Query" } & {
   getUserById: { __typename?: "User" } & Pick<User, "id" | "email">;
 };
 
+export const LoginDocument = gql`
+  mutation Login($input: LoginInput!) {
+    login(input: $input) {
+      accessToken
+    }
+  }
+`;
+export type LoginMutationFn = Apollo.MutationFunction<
+  LoginMutation,
+  LoginMutationVariables
+>;
+export function useLoginMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    LoginMutation,
+    LoginMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<LoginMutation, LoginMutationVariables>(
+    LoginDocument,
+    options
+  );
+}
+export type LoginMutationHookResult = ReturnType<typeof useLoginMutation>;
+export type LoginMutationResult = Apollo.MutationResult<LoginMutation>;
+export type LoginMutationOptions = Apollo.BaseMutationOptions<
+  LoginMutation,
+  LoginMutationVariables
+>;
 export const GetUserDocument = gql`
   query getUser($id: ID!) {
     getUserById(id: $id) {

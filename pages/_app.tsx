@@ -21,8 +21,18 @@ import App, {AppProps} from "next/app";
 import Head from "next/head";
 import Router from "next/router";
 import Admin from "layouts/Admin";
+import {
+  ApolloClient, ApolloProvider,
+  InMemoryCache,
+} from "@apollo/client";
+
+const client = new ApolloClient({
+  uri: "http://localhost:3000/graphql",
+  cache: new InMemoryCache(),
+});
 
 import PageChange from "components/PageChange/PageChange";
+
 
 import "assets/css/nextjs-material-dashboard.css?v=1.1.0";
 
@@ -61,13 +71,14 @@ function MyApp({ Component, router, pageProps }: AppProps) {
           />
           <title>Larpinator APP</title>
         </Head>
+        <ApolloProvider client={client}>
           {router.pathname.includes('login') ? 
               <Component {...pageProps} /> :
               <Admin>
                   <Component {...pageProps} />
               </Admin>
           }
-
+        </ApolloProvider>
       </React.Fragment>
   );
 }

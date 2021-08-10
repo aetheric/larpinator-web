@@ -3,7 +3,7 @@ hooks:
     - prettier --write
 overwrite: true
 schema: "http://localhost:3000/graphql"
-documents: "src/**/*.{ts,tsx}"
+documents: ["src/**/*.{ts,tsx}", "pages/**/*.{ts,tsx}", "layouts/**/*.{ts,tsx}", "components/**/*.{ts,tsx}"]
 generates:
   src/generated/graphql.ts:
     plugins:
