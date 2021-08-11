@@ -44,7 +44,9 @@ import "assets/css/nextjs-material-dashboard.css?v=1.1.0";
 import {
   useGetCurrentUserQuery,
   useGetUserQuery,
+  User,
 } from "../src/generated/graphql";
+import { CurrentUser } from "../../larp-api/src/users/users.decorator";
 
 Router.events.on("routeChangeStart", (url) => {
   console.log(`Loading: ${url}`);
@@ -83,7 +85,11 @@ const GET_CURRENT_USER = gql`
   }
 `;
 
-export const AuthContext = React.createContext({});
+type ContextProps = {
+  currentUser: User | undefined;
+};
+
+export const AuthContext = React.createContext<Partial<ContextProps>>({});
 
 function MyApp({ Component, router, pageProps }: AppProps) {
   return (

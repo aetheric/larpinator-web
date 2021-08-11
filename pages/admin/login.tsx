@@ -13,8 +13,9 @@ import Router from "next/router";
 
 import styles from "assets/jss/nextjs-material-dashboard/views/loginPage";
 import { gql } from "@apollo/client";
-import { useLoginMutation } from "../../src/generated/graphql";
+import { useLoginMutation, User } from "../../src/generated/graphql";
 import { Button, Container, Box, TextField } from "@material-ui/core";
+import { AuthContext } from "../_app";
 
 const useStyles = makeStyles<Theme>(() => styles as any);
 
@@ -59,79 +60,85 @@ export default function LoginPage(props: any) {
   const [loginMutation, { data, loading, error }] = useLoginMutation();
 
   return (
-    <div>
-      <div
-        className={classes.pageHeader}
-        style={{
-          backgroundImage: "url('/login-bg.jpeg')",
-          backgroundSize: "cover",
-          backgroundPosition: "top center",
-        }}
-      >
-        <div className={classes.container}>
-          <Container maxWidth="sm">
-            <Card className={classes[cardAnimaton]}>
-              <CardHeader color="primary" className={classes.cardHeader}>
-                <h4>Login to larpinator</h4>
-              </CardHeader>
-              <CardBody>
-                {!loginUser ? (
-                  <form
-                    className={classes.form}
-                    onSubmit={(event) => {
-                      event.preventDefault();
-                      formik.handleSubmit(event);
-                    }}
-                  >
-                    <Box marginBottom={2}>
-                      <TextField
-                        placeholder="email"
-                        fullWidth
-                        name="email"
-                        label="email"
-                        value={formik.values.email}
-                        onChange={formik.handleChange}
-                        InputProps={{
-                          endAdornment: (
-                            <InputAdornment position="end">
-                              <EmailIcon />
-                            </InputAdornment>
-                          ),
+    <AuthContext.Consumer>
+      {(value) => {
+        const { currentUser } = value;
+        console.log(currentUser);
+        return (
+          <div
+            className={classes.pageHeader}
+            style={{
+              backgroundImage: "url('/login-bg.jpeg')",
+              backgroundSize: "cover",
+              backgroundPosition: "top center",
+            }}
+          >
+            <div className={classes.container}>
+              <Container maxWidth="sm">
+                <Card className={classes[cardAnimaton]}>
+                  <CardHeader color="primary" className={classes.cardHeader}>
+                    <h4>Login to larpinator</h4>
+                  </CardHeader>
+                  <CardBody>
+                    {!loginUser ? (
+                      <form
+                        className={classes.form}
+                        onSubmit={(event) => {
+                          event.preventDefault();
+                          formik.handleSubmit(event);
                         }}
-                      />
-                    </Box>
-                    <Box marginBottom={2}>
-                      <TextField
-                        placeholder="password"
-                        fullWidth
-                        name="password"
-                        type="password"
-                        value={formik.values.password}
-                        onChange={formik.handleChange}
-                        autoComplete="current-password"
-                        InputProps={{
-                          endAdornment: (
-                            <InputAdornment position="end">
-                              <LockIcon />
-                            </InputAdornment>
-                          ),
-                        }}
-                      />
-                    </Box>
-                    <Box textAlign="center">
-                      <Button color="primary" type="submit">
-                        Get started
-                      </Button>
-                    </Box>
-                  </form>
-                ) : (
-                  <p>loggedin</p>
-                )}
-              </CardBody>
-            </Card>
-          </Container>
-        </div>
-      </div>
-    </div>
+                      >
+                        <Box marginBottom={2}>
+                          <TextField
+                            placeholder="email"
+                            fullWidth
+                            name="email"
+                            label="email"
+                            value={formik.values.email}
+                            onChange={formik.handleChange}
+                            InputProps={{
+                              endAdornment: (
+                                <InputAdornment position="end">
+                                  <EmailIcon />
+                                </InputAdornment>
+                              ),
+                            }}
+                          />
+                        </Box>
+                        <Box marginBottom={2}>
+                          <TextField
+                            placeholder="password"
+                            fullWidth
+                            name="password"
+                            type="password"
+                            value={formik.values.password}
+                            onChange={formik.handleChange}
+                            autoComplete="current-password"
+                            InputProps={{
+                              endAdornment: (
+                                <InputAdornment position="end">
+                                  <LockIcon />
+                                </InputAdornment>
+                              ),
+                            }}
+                          />
+                        </Box>
+                        <Box textAlign="center">
+                          <Button color="primary" type="submit">
+                            Get started
+                          </Button>
+                        </Box>
+                      </form>
+                    ) : (
+                      <p>loggedin</p>
+                    )}
+                  </CardBody>
+                </Card>
+              </Container>
+            </div>
+          </div>
+        );
+      }}
+    </AuthContext.Consumer>
   );
 }
