@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { Box, Button, TextField } from "@material-ui/core";
+import { Box, Button, Link, TextField } from "@material-ui/core";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import EmailIcon from "@material-ui/icons/Email";
 import LockIcon from "@material-ui/icons/Lock";
@@ -18,7 +18,6 @@ interface LoginFormProps {
 
 export const LoginForm: FC<LoginFormProps> = (props) => {
   const classes = useStyles();
-
   const loginFormik = useFormik({
     initialValues: {
       email: "",
@@ -90,12 +89,14 @@ export const LoginForm: FC<LoginFormProps> = (props) => {
         />
       </Box>
       <Box textAlign="center">
-        <Button color="primary" type="submit">
-          Get started
+        <Button color="primary" type="submit" variant="contained">
+          Login
         </Button>
-        <Button color="primary" onClick={selectRegisterForm}>
-          Register
-        </Button>
+      </Box>
+      <Box textAlign="right">
+        <Link href="#" onClick={selectRegisterForm} variant="caption">
+          Register a new user
+        </Link>
       </Box>
     </form>
   );

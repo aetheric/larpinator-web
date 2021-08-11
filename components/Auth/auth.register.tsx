@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { Box, Button, TextField } from "@material-ui/core";
+import { Box, Button, Link, TextField } from "@material-ui/core";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import EmailIcon from "@material-ui/icons/Email";
 import LockIcon from "@material-ui/icons/Lock";
@@ -59,6 +59,7 @@ export const RegisterForm: FC<LoginFormProps> = (props) => {
         <TextField
           placeholder="name"
           fullWidth
+          required
           name="name"
           label="name"
           value={registerFormik.values.name}
@@ -76,6 +77,7 @@ export const RegisterForm: FC<LoginFormProps> = (props) => {
         <TextField
           placeholder="email"
           fullWidth
+          required
           name="email"
           label="email"
           value={registerFormik.values.email}
@@ -93,6 +95,7 @@ export const RegisterForm: FC<LoginFormProps> = (props) => {
         <TextField
           placeholder="password"
           fullWidth
+          required
           name="password"
           type="password"
           value={registerFormik.values.password}
@@ -108,12 +111,14 @@ export const RegisterForm: FC<LoginFormProps> = (props) => {
         />
       </Box>
       <Box textAlign="center">
-        <Button color="primary" type="submit">
-          Get started
+        <Button color="primary" type="submit" variant="contained">
+          Register
         </Button>
-        <Button color="primary" onClick={selectLoginForm}>
-          Login
-        </Button>
+      </Box>
+      <Box textAlign="right">
+        <Link href="#" onClick={selectLoginForm} variant="caption">
+          Already have an account
+        </Link>
       </Box>
     </form>
   );
