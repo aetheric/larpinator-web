@@ -29,7 +29,6 @@ const LOGIN = gql`
 
 export default function LoginPage(props: any) {
   const [cardAnimaton, setCardAnimation] = React.useState("cardHidden");
-  const [loginUser, setLoginUser] = React.useState("");
   setTimeout(function () {
     setCardAnimation("");
   }, 700);
@@ -80,7 +79,7 @@ export default function LoginPage(props: any) {
                     <h4>Login to larpinator</h4>
                   </CardHeader>
                   <CardBody>
-                    {!loginUser ? (
+                    {!currentUser ? (
                       <form
                         className={classes.form}
                         onSubmit={(event) => {
