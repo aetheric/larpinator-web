@@ -1,21 +1,16 @@
-import React from "react";
+import React, { FC, useEffect } from "react";
 // @material-ui/core components
 import { makeStyles, Theme } from "@material-ui/core/styles";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import EmailIcon from "@material-ui/icons/Email";
 import Card from "components/Card/Card";
 import CardBody from "components/Card/CardBody";
 import CardHeader from "components/Card/CardHeader";
-import LockIcon from "@material-ui/icons/Lock";
-import { useFormik } from "formik";
-import Cookies from "js-cookie";
-import Router from "next/router";
 
 import styles from "assets/jss/nextjs-material-dashboard/views/loginPage";
 import { gql } from "@apollo/client";
-import { useLoginMutation, User } from "../../src/generated/graphql";
 import { Button, Container, Box, TextField } from "@material-ui/core";
 import { AuthContext } from "../_app";
+import { LoginForm } from "../../components/Auth/auth.login";
+import { RegisterForm } from "../../components/Auth/auth.register";
 
 const useStyles = makeStyles<Theme>(() => styles as any);
 
@@ -27,36 +22,44 @@ const LOGIN = gql`
   }
 `;
 
+const REGISTER = gql`
+  mutation Register($input: RegisterInput!) {
+    register(input: $input) {
+      success
+      message
+    }
+  }
+`;
+
+const ShowForm: FC = () => {
+  const [formType, setFormType] = React.useState("login");
+  const selectRegisterForm = () => {
+    setFormType("register");
+  };
+  const selectLoginForm = () => {
+    setFormType("login");
+  };
+
+  useEffect(() => {
+    console.log(`formType changed: ${formType}`);
+  }, [formType]);
+
+  if (formType === "login") {
+    return <LoginForm onSelectRegisterForm={selectRegisterForm} />;
+  } else {
+    return <RegisterForm onSelectLoginForm={selectLoginForm} />;
+  }
+
+  return null;
+};
+
 export default function LoginPage(props: any) {
-  const [cardAnimaton, setCardAnimation] = React.useState("cardHidden");
+  const [cardAnimation, setCardAnimation] = React.useState("cardHidden");
+
   setTimeout(function () {
     setCardAnimation("");
   }, 700);
   const classes = useStyles();
-
-  const formik = useFormik({
-    initialValues: {
-      email: "",
-      password: "",
-    },
-    onSubmit: (values) => {
-      loginMutation({
-        variables: {
-          input: {
-            email: String(values.email).trim(),
-            password: values.password,
-          },
-        },
-      }).then((r) => {
-        if (r.data?.login.accessToken) {
-          Cookies.set("token", r.data.login.accessToken);
-          Router.push("/admin/dashboard");
-        }
-      });
-    },
-  });
-
-  const [loginMutation, { data, loading, error }] = useLoginMutation();
 
   return (
     <AuthContext.Consumer>
@@ -74,63 +77,12 @@ export default function LoginPage(props: any) {
           >
             <div className={classes.container}>
               <Container maxWidth="sm">
-                <Card className={classes[cardAnimaton]}>
+                <Card className={classes[cardAnimation]}>
                   <CardHeader color="primary" className={classes.cardHeader}>
-                    <h4>Login to larpinator</h4>
+                    <h4>Sign in to larpinator</h4>
                   </CardHeader>
                   <CardBody>
-                    {!currentUser ? (
-                      <form
-                        className={classes.form}
-                        onSubmit={(event) => {
-                          event.preventDefault();
-                          formik.handleSubmit(event);
-                        }}
-                      >
-                        <Box marginBottom={2}>
-                          <TextField
-                            placeholder="email"
-                            fullWidth
-                            name="email"
-                            label="email"
-                            value={formik.values.email}
-                            onChange={formik.handleChange}
-                            InputProps={{
-                              endAdornment: (
-                                <InputAdornment position="end">
-                                  <EmailIcon />
-                                </InputAdornment>
-                              ),
-                            }}
-                          />
-                        </Box>
-                        <Box marginBottom={2}>
-                          <TextField
-                            placeholder="password"
-                            fullWidth
-                            name="password"
-                            type="password"
-                            value={formik.values.password}
-                            onChange={formik.handleChange}
-                            autoComplete="current-password"
-                            InputProps={{
-                              endAdornment: (
-                                <InputAdornment position="end">
-                                  <LockIcon />
-                                </InputAdornment>
-                              ),
-                            }}
-                          />
-                        </Box>
-                        <Box textAlign="center">
-                          <Button color="primary" type="submit">
-                            Get started
-                          </Button>
-                        </Box>
-                      </form>
-                    ) : (
-                      <p>loggedin</p>
-                    )}
+                    {!currentUser ? <ShowForm /> : <p>loggedin</p>}
                   </CardBody>
                 </Card>
               </Container>

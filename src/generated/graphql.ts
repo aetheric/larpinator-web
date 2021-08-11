@@ -57,6 +57,7 @@ export type QueryGetUserByIdArgs = {
 };
 
 export type RegisterInput = {
+  name: Scalars["String"];
   email: Scalars["String"];
   password: Scalars["String"];
 };
@@ -96,6 +97,17 @@ export type LoginMutation = { __typename?: "Mutation" } & {
   login: { __typename?: "LoginStatusDto" } & Pick<
     LoginStatusDto,
     "accessToken"
+  >;
+};
+
+export type RegisterMutationVariables = Exact<{
+  input: RegisterInput;
+}>;
+
+export type RegisterMutation = { __typename?: "Mutation" } & {
+  register: { __typename?: "RegisterStatusDto" } & Pick<
+    RegisterStatusDto,
+    "success" | "message"
   >;
 };
 
@@ -179,6 +191,36 @@ export type LoginMutationResult = Apollo.MutationResult<LoginMutation>;
 export type LoginMutationOptions = Apollo.BaseMutationOptions<
   LoginMutation,
   LoginMutationVariables
+>;
+export const RegisterDocument = gql`
+  mutation Register($input: RegisterInput!) {
+    register(input: $input) {
+      success
+      message
+    }
+  }
+`;
+export type RegisterMutationFn = Apollo.MutationFunction<
+  RegisterMutation,
+  RegisterMutationVariables
+>;
+export function useRegisterMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    RegisterMutation,
+    RegisterMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<RegisterMutation, RegisterMutationVariables>(
+    RegisterDocument,
+    options
+  );
+}
+export type RegisterMutationHookResult = ReturnType<typeof useRegisterMutation>;
+export type RegisterMutationResult = Apollo.MutationResult<RegisterMutation>;
+export type RegisterMutationOptions = Apollo.BaseMutationOptions<
+  RegisterMutation,
+  RegisterMutationVariables
 >;
 export const GetUserDocument = gql`
   query getUser($id: ID!) {
