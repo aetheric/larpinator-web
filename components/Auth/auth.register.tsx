@@ -4,7 +4,6 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import EmailIcon from "@material-ui/icons/Email";
 import LockIcon from "@material-ui/icons/Lock";
 import { useFormik } from "formik";
-import Router from "next/router";
 import { useRegisterMutation } from "../../src/generated/graphql";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import styles from "../../assets/jss/nextjs-material-dashboard/views/loginPage";

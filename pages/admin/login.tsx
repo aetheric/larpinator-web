@@ -79,7 +79,7 @@ export default function LoginPage(props: any) {
               <Container maxWidth="sm">
                 <Card className={classes[cardAnimation]}>
                   <CardHeader color="primary" className={classes.cardHeader}>
-                    <h4>Sign in to larpinator</h4>
+                    <h4>Welcome to larpinator</h4>
                   </CardHeader>
                   <CardBody>
                     {!currentUser ? <ShowForm /> : <p>loggedin</p>}
