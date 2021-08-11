@@ -17,11 +17,10 @@
 */
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
-import App, { AppProps } from "next/app";
+import App, { AppInitialProps, AppProps } from "next/app";
 import Head from "next/head";
 import Router from "next/router";
 import Admin from "layouts/Admin";
-import { createStore } from "redux";
 import {
   ApolloClient,
   ApolloProvider,
@@ -44,6 +43,7 @@ import PageChange from "components/PageChange/PageChange";
 
 import "assets/css/nextjs-material-dashboard.css?v=1.1.0";
 import { useGetCurrentUserQuery } from "../src/generated/graphql";
+import { wrapper } from "../src/store";
 
 Router.events.on("routeChangeStart", (url) => {
   console.log(`Loading: ${url}`);
@@ -82,22 +82,27 @@ const GET_CURRENT_USER = gql`
   }
 `;
 
-class MyApp extends App {
-  static async getInitialProps({ Component, ctx }) {
-    let pageProps = {};
-    if (Component.getInitialProps) {
-      pageProps = await Component.getInitialProps(ctx);
-    }
-    return {
-      pageProps: {
-        ...(Component.getInitialProps
-          ? await Component.getInitialProps(ctx)
-          : {}),
-      },
-    };
-  }
+class MyApp extends App<AppInitialProps> {
+  public static getInitialProps = wrapper.getInitialAppProps(
+    (store) =>
+      async ({ Component, ctx }) => {
+        // store.dispatch({ type: "TOE", payload: "was set in _app" });
 
-  render() {
+        return {
+          pageProps: {
+            // Call page-level getInitialProps
+            // DON'T FORGET TO PROVIDE STORE TO PAGE
+            ...(Component.getInitialProps
+              ? await Component.getInitialProps({ ...ctx, store })
+              : {}),
+            // Some custom thing for all pages
+            pathname: ctx.pathname,
+          },
+        };
+      }
+  );
+
+  public render() {
     const { Component, router, pageProps } = this.props;
     return (
       <React.Fragment>
@@ -122,4 +127,4 @@ class MyApp extends App {
   }
 }
 
-export default MyApp;
+export default wrapper.withRedux(MyApp);
