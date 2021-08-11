@@ -27,6 +27,7 @@ const LOGIN = gql`
 `;
 
 export default function LoginPage(props: any) {
+  console.log(props);
   const [cardAnimaton, setCardAnimation] = React.useState("cardHidden");
   const [loginUser, setLoginUser] = React.useState("");
   setTimeout(function () {

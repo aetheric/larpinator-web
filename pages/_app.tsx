@@ -15,7 +15,7 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React from "react";
+import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import App, { AppProps } from "next/app";
 import Head from "next/head";
@@ -43,10 +43,7 @@ const client = new ApolloClient({
 import PageChange from "components/PageChange/PageChange";
 
 import "assets/css/nextjs-material-dashboard.css?v=1.1.0";
-import {
-  useGetCurrentUserQuery,
-  useGetUserQuery,
-} from "../src/generated/graphql";
+import { useGetCurrentUserQuery } from "../src/generated/graphql";
 
 Router.events.on("routeChangeStart", (url) => {
   console.log(`Loading: ${url}`);
@@ -74,29 +71,6 @@ Router.events.on("routeChangeError", () => {
   document.body.classList.remove("body-page-transition");
 });
 
-function MyApp({ Component, router, pageProps }: AppProps) {
-  return (
-    <React.Fragment>
-      <Head>
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1, shrink-to-fit=no"
-        />
-        <title>Larpinator APP</title>
-      </Head>
-      <ApolloProvider client={client}>
-        {router.pathname.includes("login") ? (
-          <Component {...pageProps} />
-        ) : (
-          <Admin>
-            <Component {...pageProps} />
-          </Admin>
-        )}
-      </ApolloProvider>
-    </React.Fragment>
-  );
-}
-
 const GET_CURRENT_USER = gql`
   query getCurrentUser {
     getCurrentUser {
@@ -108,11 +82,44 @@ const GET_CURRENT_USER = gql`
   }
 `;
 
-// This gets called on every request
-export async function getStaticProps(context: any) {
-  return {
-    props: { xxx: "xxx" }, // will be passed to the page component as props
-  };
+class MyApp extends App {
+  static async getInitialProps({ Component, ctx }) {
+    let pageProps = {};
+    if (Component.getInitialProps) {
+      pageProps = await Component.getInitialProps(ctx);
+    }
+    return {
+      pageProps: {
+        ...(Component.getInitialProps
+          ? await Component.getInitialProps(ctx)
+          : {}),
+      },
+    };
+  }
+
+  render() {
+    const { Component, router, pageProps } = this.props;
+    return (
+      <React.Fragment>
+        <Head>
+          <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no"
+          />
+          <title>Larpinator APP</title>
+        </Head>
+        <ApolloProvider client={client}>
+          {router.pathname.includes("login") ? (
+            <Component {...pageProps} />
+          ) : (
+            <Admin>
+              <Component {...pageProps} />
+            </Admin>
+          )}
+        </ApolloProvider>
+      </React.Fragment>
+    );
+  }
 }
 
 export default MyApp;
