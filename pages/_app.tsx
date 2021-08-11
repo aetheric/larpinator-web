@@ -15,9 +15,9 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React, { Component } from "react";
+import React from "react";
 import ReactDOM from "react-dom";
-import App, { AppInitialProps, AppProps } from "next/app";
+import App, { AppProps } from "next/app";
 import Head from "next/head";
 import Router from "next/router";
 import Admin from "layouts/Admin";
@@ -38,12 +38,13 @@ const client = new ApolloClient({
     authorization: token ? `Bearer ${token}` : "",
   },
 });
-
 import PageChange from "components/PageChange/PageChange";
 
 import "assets/css/nextjs-material-dashboard.css?v=1.1.0";
-import { useGetCurrentUserQuery } from "../src/generated/graphql";
-import { wrapper } from "../src/store";
+import {
+  useGetCurrentUserQuery,
+  useGetUserQuery,
+} from "../src/generated/graphql";
 
 Router.events.on("routeChangeStart", (url) => {
   console.log(`Loading: ${url}`);
@@ -82,29 +83,11 @@ const GET_CURRENT_USER = gql`
   }
 `;
 
-class MyApp extends App<AppInitialProps> {
-  public static getInitialProps = wrapper.getInitialAppProps(
-    (store) =>
-      async ({ Component, ctx }) => {
-        // store.dispatch({ type: "TOE", payload: "was set in _app" });
+export const AuthContext = React.createContext({});
 
-        return {
-          pageProps: {
-            // Call page-level getInitialProps
-            // DON'T FORGET TO PROVIDE STORE TO PAGE
-            ...(Component.getInitialProps
-              ? await Component.getInitialProps({ ...ctx, store })
-              : {}),
-            // Some custom thing for all pages
-            pathname: ctx.pathname,
-          },
-        };
-      }
-  );
-
-  public render() {
-    const { Component, router, pageProps } = this.props;
-    return (
+function MyApp({ Component, router, pageProps }: AppProps) {
+  return (
+    <ApolloProvider client={client}>
       <React.Fragment>
         <Head>
           <meta
@@ -113,18 +96,35 @@ class MyApp extends App<AppInitialProps> {
           />
           <title>Larpinator APP</title>
         </Head>
-        <ApolloProvider client={client}>
-          {router.pathname.includes("login") ? (
-            <Component {...pageProps} />
-          ) : (
-            <Admin>
-              <Component {...pageProps} />
-            </Admin>
-          )}
-        </ApolloProvider>
+
+        {router.pathname.includes("login") ? (
+          <Component {...pageProps} />
+        ) : (
+          <Admin>
+            <MyAppInner
+              pageProps={pageProps}
+              Component={Component}
+              router={router}
+            />
+          </Admin>
+        )}
       </React.Fragment>
-    );
-  }
+    </ApolloProvider>
+  );
 }
 
-export default wrapper.withRedux(MyApp);
+function MyAppInner({ Component, router, pageProps }: AppProps) {
+  const { data, loading, error, refetch, networkStatus } =
+    useGetCurrentUserQuery();
+  if (!data) {
+    return <PageChange />;
+  }
+
+  return (
+    <AuthContext.Provider value={{ currentUser: data.getCurrentUser }}>
+      <Component {...pageProps} />
+    </AuthContext.Provider>
+  );
+}
+
+export default MyApp;
