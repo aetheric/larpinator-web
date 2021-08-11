@@ -97,32 +97,28 @@ function MyApp({ Component, router, pageProps }: AppProps) {
           <title>Larpinator APP</title>
         </Head>
 
-        {router.pathname.includes("login") ? (
-          <Component {...pageProps} />
-        ) : (
-          <Admin>
-            <MyAppInner
-              pageProps={pageProps}
-              Component={Component}
-              router={router}
-            />
-          </Admin>
-        )}
+        <MyAppInner
+          pageProps={pageProps}
+          Component={Component}
+          router={router}
+        />
       </React.Fragment>
     </ApolloProvider>
   );
 }
 
 function MyAppInner({ Component, router, pageProps }: AppProps) {
-  const { data, loading, error, refetch, networkStatus } =
-    useGetCurrentUserQuery();
-  if (!data) {
-    return <PageChange />;
-  }
+  const { data } = useGetCurrentUserQuery();
 
   return (
-    <AuthContext.Provider value={{ currentUser: data.getCurrentUser }}>
-      <Component {...pageProps} />
+    <AuthContext.Provider value={{ currentUser: data?.getCurrentUser }}>
+      {router.pathname.includes("login") ? (
+        <Component {...pageProps} />
+      ) : (
+        <Admin>
+          <Component {...pageProps} />
+        </Admin>
+      )}
     </AuthContext.Provider>
   );
 }
