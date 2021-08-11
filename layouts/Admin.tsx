@@ -9,7 +9,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import Navbar from "components/Navbars/Navbar";
 import Footer from "components/Footer/Footer";
 import Sidebar from "components/Sidebar/Sidebar";
-import FixedPlugin from "components/FixedPlugin/FixedPlugin";
 
 import routes from "routes.js";
 
@@ -102,14 +101,6 @@ export default function Admin({ children, ...rest }) {
           <div className={classes.map}>{children}</div>
         )}
         {getRoute() ? <Footer /> : null}
-        <FixedPlugin
-          handleImageClick={handleImageClick}
-          handleColorClick={handleColorClick}
-          bgColor={color}
-          bgImage={image}
-          handleFixedClick={handleFixedClick}
-          fixedClasses={fixedClasses}
-        />
       </div>
     </div>
   );

@@ -14,7 +14,6 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Icon from "@material-ui/core/Icon";
 // core components
 import AdminNavbarLinks from "components/Navbars/AdminNavbarLinks";
-import RTLNavbarLinks from "components/Navbars/RTLNavbarLinks";
 
 import styles from "assets/jss/nextjs-material-dashboard/components/sidebarStyle";
 
@@ -117,7 +116,7 @@ export default function Sidebar(props) {
         >
           {brand}
           <div className={classes.sidebarWrapper}>
-            {props.rtlActive ? <RTLNavbarLinks /> : <AdminNavbarLinks />}
+            {props.rtlActive ? <AdminNavbarLinks /> : <AdminNavbarLinks />}
             {links}
           </div>
           {image !== undefined ? (

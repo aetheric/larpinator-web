@@ -3,7 +3,7 @@ import classNames from "classnames";
 import PropTypes from "prop-types";
 import { useRouter } from "next/router";
 // @material-ui/core components
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, Theme } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
@@ -12,20 +12,19 @@ import Hidden from "@material-ui/core/Hidden";
 import Menu from "@material-ui/icons/Menu";
 // core components
 import AdminNavbarLinks from "./AdminNavbarLinks";
-import RTLNavbarLinks from "./RTLNavbarLinks";
-import Button from "components/CustomButtons/Button";
 
 import styles from "assets/jss/nextjs-material-dashboard/components/headerStyle";
+import { Button } from "@material-ui/core";
 
-export default function Header(props) {
+export default function Header(props: any) {
   // used for checking current route
   const router = useRouter();
   // create styles for this component
-  const useStyles = makeStyles(styles);
+  const useStyles = makeStyles<Theme>(() => styles as any);
   const classes = useStyles();
   function makeBrand() {
-    var name = "NextJS Material Dashboard";
-    props.routes.map((prop) => {
+    let name = "NextJS Material Dashboard";
+    props.routes.map((prop: any) => {
       if (router.route.indexOf(prop.layout + prop.path) !== -1) {
         name = props.rtlActive ? prop.rtlName : prop.name;
       }
@@ -42,12 +41,12 @@ export default function Header(props) {
       <Toolbar className={classes.container}>
         <div className={classes.flex}>
           {/* Here we create navbar brand, based on route name */}
-          <Button color="transparent" href="#" className={classes.title}>
+          <Button href="#" className={classes.title}>
             {makeBrand()}
           </Button>
         </div>
         <Hidden smDown implementation="css">
-          {props.rtlActive ? <RTLNavbarLinks /> : <AdminNavbarLinks />}
+          {props.rtlActive ? <AdminNavbarLinks /> : <AdminNavbarLinks />}
         </Hidden>
         <Hidden mdUp implementation="css">
           <IconButton

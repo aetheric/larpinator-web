@@ -1,7 +1,7 @@
 import React from "react";
 
 // @material-ui/core components
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, Theme } from "@material-ui/core/styles";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 // core components
@@ -31,8 +31,8 @@ const styles = {
   },
 };
 
-export default function PageChange(props) {
-  const useStyles = makeStyles(styles);
+export default function PageChange(props: any) {
+  const useStyles = makeStyles<Theme>(() => styles as any);
   const classes = useStyles();
   return (
     <div>

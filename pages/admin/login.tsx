@@ -7,7 +7,7 @@ import CardHeader from "components/Card/CardHeader";
 
 import styles from "assets/jss/nextjs-material-dashboard/views/loginPage";
 import { gql } from "@apollo/client";
-import { Button, Container, Box, TextField } from "@material-ui/core";
+import { Container } from "@material-ui/core";
 import { AuthContext } from "../_app";
 import { LoginForm } from "../../components/Auth/auth.login";
 import { RegisterForm } from "../../components/Auth/auth.register";
