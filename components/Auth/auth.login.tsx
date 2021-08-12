@@ -3,20 +3,28 @@ import { useFormik } from "formik";
 import Cookies from "js-cookie";
 import Router from "next/router";
 import { useLoginMutation } from "../../src/generated/graphql";
-import { Button, Input, Space } from "antd";
+import { Form, Button, Input, Space, Divider } from "antd";
 
 import { MailFilled } from "@ant-design/icons";
+import * as Yup from "yup";
 
 interface LoginFormProps {
   onSelectRegisterForm: () => void;
 }
 
 export const LoginForm: FC<LoginFormProps> = (props) => {
-  const loginFormik = useFormik({
+  const validationSchema = Yup.object({
+    email: Yup.string().email("Invalid email").required("Required"),
+    password: Yup.string().required("Required"),
+  });
+
+  const { errors, values, handleSubmit, handleChange } = useFormik({
     initialValues: {
       email: "",
       password: "",
     },
+    validationSchema,
+    validateOnChange: true,
     onSubmit: (values) => {
       loginMutation({
         variables: {
@@ -42,27 +50,32 @@ export const LoginForm: FC<LoginFormProps> = (props) => {
 
   return (
     <div>
-      <Space direction="vertical" size="middle" style={{ width: "100%" }}>
+      <Form.Item
+        validateStatus={errors.email ? "error" : "success"}
+        help={errors.email}
+      >
         <Input
           name="email"
           placeholder="email"
           suffix={<MailFilled />}
-          value={loginFormik.values.email}
-          onChange={loginFormik.handleChange}
+          value={values.email}
+          onChange={handleChange}
         />
+      </Form.Item>
+      <Form.Item
+        validateStatus={errors.password ? "error" : "success"}
+        help={errors.password}
+      >
         <Input.Password
           name="password"
           placeholder="password"
-          suffix={<MailFilled />}
-          value={loginFormik.values.password}
-          onChange={loginFormik.handleChange}
+          value={values.password}
+          onChange={handleChange}
         />
-
-        <Button
-          color="primary"
-          onClick={(e) => loginFormik.handleSubmit()}
-          type="primary"
-        >
+      </Form.Item>
+      <Divider />
+      <Space direction="vertical" size="middle" style={{ width: "100%" }}>
+        <Button color="primary" onClick={(e) => handleSubmit()} type="primary">
           Login
         </Button>
 

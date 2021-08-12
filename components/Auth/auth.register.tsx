@@ -1,23 +1,29 @@
 import React, { FC } from "react";
-import { Box, Button, Link, TextField } from "@material-ui/core";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import EmailIcon from "@material-ui/icons/Email";
-import LockIcon from "@material-ui/icons/Lock";
+
 import { useFormik } from "formik";
 import { useRegisterMutation } from "../../src/generated/graphql";
-import AccountCircleIcon from "@material-ui/icons/AccountCircle";
+import { Button, Input, Space, Form, Divider } from "antd";
+import { MailFilled, UserOutlined } from "@ant-design/icons";
+import * as Yup from "yup";
 
 interface LoginFormProps {
   onSelectLoginForm: () => void;
 }
 
 export const RegisterForm: FC<LoginFormProps> = (props) => {
-  const registerFormik = useFormik({
+  const validationSchema = Yup.object({
+    name: Yup.string().required("Required"),
+    email: Yup.string().email("Invalid email").required("Required"),
+    password: Yup.string().required("Required"),
+  });
+  const { errors, values, handleSubmit, handleChange } = useFormik({
     initialValues: {
       name: "",
       email: "",
       password: "",
     },
+    validationSchema,
+    validateOnChange: true,
     onSubmit: (values) => {
       registerMutation({
         variables: {
@@ -41,77 +47,52 @@ export const RegisterForm: FC<LoginFormProps> = (props) => {
     props.onSelectLoginForm();
   };
   return (
-    <form
-      onSubmit={(event) => {
-        event.preventDefault();
-        registerFormik.handleSubmit(event);
-      }}
-    >
-      <Box>
-        <TextField
-          placeholder="name"
-          fullWidth
-          required
+    <div>
+      <Form.Item
+        validateStatus={errors.name ? "error" : "success"}
+        help={errors.name}
+      >
+        <Input
           name="name"
-          label="name"
-          value={registerFormik.values.name}
-          onChange={registerFormik.handleChange}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <AccountCircleIcon />
-              </InputAdornment>
-            ),
-          }}
+          placeholder="name"
+          suffix={<UserOutlined />}
+          value={values.name}
+          onChange={handleChange}
         />
-      </Box>
-      <Box marginBottom={2}>
-        <TextField
-          placeholder="email"
-          fullWidth
-          required
+      </Form.Item>
+      <Form.Item
+        validateStatus={errors.email ? "error" : "success"}
+        help={errors.email}
+      >
+        <Input
           name="email"
-          label="email"
-          value={registerFormik.values.email}
-          onChange={registerFormik.handleChange}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <EmailIcon />
-              </InputAdornment>
-            ),
-          }}
+          placeholder="email"
+          suffix={<MailFilled />}
+          value={values.email}
+          onChange={handleChange}
         />
-      </Box>
-      <Box marginBottom={2}>
-        <TextField
-          placeholder="password"
-          fullWidth
-          required
+      </Form.Item>
+      <Form.Item
+        validateStatus={errors.password ? "error" : "success"}
+        help={errors.password}
+      >
+        <Input.Password
           name="password"
-          type="password"
-          value={registerFormik.values.password}
-          onChange={registerFormik.handleChange}
-          autoComplete="current-password"
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <LockIcon />
-              </InputAdornment>
-            ),
-          }}
+          placeholder="password"
+          value={values.password}
+          onChange={handleChange}
         />
-      </Box>
-      <Box textAlign="center">
-        <Button color="primary" type="submit" variant="contained">
+      </Form.Item>
+      <Divider />
+      <Space direction="vertical" size="middle" style={{ width: "100%" }}>
+        <Button color="primary" onClick={(e) => handleSubmit()} type="primary">
           Register
         </Button>
-      </Box>
-      <Box textAlign="right">
-        <Link href="#" onClick={selectLoginForm} variant="caption">
+
+        <Button type="link" onClick={selectLoginForm}>
           Already have an account
-        </Link>
-      </Box>
-    </form>
+        </Button>
+      </Space>
+    </div>
   );
 };
