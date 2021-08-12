@@ -1,9 +1,9 @@
 import React, { FC, useEffect } from "react";
 
 import { gql } from "@apollo/client";
-import { AuthContext } from "../_app";
-import { LoginForm } from "../../components/Auth/auth.login";
-import { RegisterForm } from "../../components/Auth/auth.register";
+import { AuthContext } from "pages/_app";
+import { LoginForm } from "components/Auth/auth.login";
+import { RegisterForm } from "components/Auth/auth.register";
 import { Card } from "antd";
 import styles from "styles/components/Login.module.css";
 
