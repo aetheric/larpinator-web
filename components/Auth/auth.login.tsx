@@ -1,12 +1,11 @@
 import React, { FC } from "react";
-import { Box, Button, Link, TextField } from "@material-ui/core";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import EmailIcon from "@material-ui/icons/Email";
-import LockIcon from "@material-ui/icons/Lock";
 import { useFormik } from "formik";
 import Cookies from "js-cookie";
 import Router from "next/router";
 import { useLoginMutation } from "../../src/generated/graphql";
+import { Button, Input, Space } from "antd";
+
+import { MailFilled } from "@ant-design/icons";
 
 interface LoginFormProps {
   onSelectRegisterForm: () => void;
@@ -40,58 +39,37 @@ export const LoginForm: FC<LoginFormProps> = (props) => {
   const selectRegisterForm = () => {
     props.onSelectRegisterForm();
   };
+
   return (
-    <form
-      onSubmit={(event) => {
-        event.preventDefault();
-        loginFormik.handleSubmit(event);
-      }}
-    >
-      <Box marginBottom={2}>
-        <TextField
-          placeholder="email"
-          fullWidth
+    <div>
+      <Space direction="vertical" size="middle" style={{ width: "100%" }}>
+        <Input
           name="email"
-          label="email"
+          placeholder="email"
+          suffix={<MailFilled />}
           value={loginFormik.values.email}
           onChange={loginFormik.handleChange}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <EmailIcon />
-              </InputAdornment>
-            ),
-          }}
         />
-      </Box>
-      <Box marginBottom={2}>
-        <TextField
-          placeholder="password"
-          fullWidth
+        <Input.Password
           name="password"
-          type="password"
+          placeholder="password"
+          suffix={<MailFilled />}
           value={loginFormik.values.password}
           onChange={loginFormik.handleChange}
-          autoComplete="current-password"
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <LockIcon />
-              </InputAdornment>
-            ),
-          }}
         />
-      </Box>
-      <Box textAlign="center">
-        <Button color="primary" type="submit" variant="contained">
+
+        <Button
+          color="primary"
+          onClick={(e) => loginFormik.handleSubmit()}
+          type="primary"
+        >
           Login
         </Button>
-      </Box>
-      <Box textAlign="right">
-        <Link href="#" onClick={selectRegisterForm} variant="caption">
+
+        <Button type="link" onClick={selectRegisterForm}>
           Register a new user
-        </Link>
-      </Box>
-    </form>
+        </Button>
+      </Space>
+    </div>
   );
 };

@@ -4,7 +4,6 @@ import { gql } from "@apollo/client";
 import { AuthContext } from "../_app";
 import { LoginForm } from "../../components/Auth/auth.login";
 import { RegisterForm } from "../../components/Auth/auth.register";
-import { StyledButton } from "../../components/Button/Buttons";
 import { Card } from "antd";
 import styles from "styles/components/Login.module.css";
 

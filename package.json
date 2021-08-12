@@ -10,6 +10,7 @@
     "codegen": "graphql-codegen --config codegen.yml"
   },
   "dependencies": {
+    "@ant-design/icons": "^4.6.2",
     "@apollo/client": "^3.4.3",
     "@date-io/date-fns": "1.x",
     "@material-ui/core": "^4.12.3",
