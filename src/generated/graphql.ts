@@ -51,6 +51,7 @@ export type Query = {
   getUserById: User;
   getCurrentUser: User;
   getAllUsers: Array<User>;
+  getAllPlayers: Array<User>;
 };
 
 export type QueryGetUserByIdArgs = {
@@ -74,6 +75,8 @@ export type User = {
   id: Scalars["ID"];
   name: Scalars["String"];
   email: Scalars["String"];
+  role: Scalars["String"];
+  gender?: Maybe<Scalars["String"]>;
   password: Scalars["String"];
   isActive: Scalars["Boolean"];
   createdAt: Scalars["DateTime"];
@@ -112,11 +115,14 @@ export type RegisterMutation = { __typename?: "Mutation" } & {
   >;
 };
 
-export type GetAllUsersQueryVariables = Exact<{ [key: string]: never }>;
+export type GetAllPlayersQueryVariables = Exact<{ [key: string]: never }>;
 
-export type GetAllUsersQuery = { __typename?: "Query" } & {
-  getAllUsers: Array<
-    { __typename?: "User" } & Pick<User, "id" | "name" | "email" | "isActive">
+export type GetAllPlayersQuery = { __typename?: "Query" } & {
+  getAllPlayers: Array<
+    { __typename?: "User" } & Pick<
+      User,
+      "id" | "name" | "gender" | "role" | "email" | "isActive"
+    >
   >;
 };
 
@@ -231,47 +237,51 @@ export type RegisterMutationOptions = Apollo.BaseMutationOptions<
   RegisterMutation,
   RegisterMutationVariables
 >;
-export const GetAllUsersDocument = gql`
-  query getAllUsers {
-    getAllUsers {
+export const GetAllPlayersDocument = gql`
+  query getAllPlayers {
+    getAllPlayers {
       id
       name
+      gender
+      role
       email
       isActive
     }
   }
 `;
-export function useGetAllUsersQuery(
+export function useGetAllPlayersQuery(
   baseOptions?: Apollo.QueryHookOptions<
-    GetAllUsersQuery,
-    GetAllUsersQueryVariables
+    GetAllPlayersQuery,
+    GetAllPlayersQueryVariables
   >
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetAllUsersQuery, GetAllUsersQueryVariables>(
-    GetAllUsersDocument,
+  return Apollo.useQuery<GetAllPlayersQuery, GetAllPlayersQueryVariables>(
+    GetAllPlayersDocument,
     options
   );
 }
-export function useGetAllUsersLazyQuery(
+export function useGetAllPlayersLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<
-    GetAllUsersQuery,
-    GetAllUsersQueryVariables
+    GetAllPlayersQuery,
+    GetAllPlayersQueryVariables
   >
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GetAllUsersQuery, GetAllUsersQueryVariables>(
-    GetAllUsersDocument,
+  return Apollo.useLazyQuery<GetAllPlayersQuery, GetAllPlayersQueryVariables>(
+    GetAllPlayersDocument,
     options
   );
 }
-export type GetAllUsersQueryHookResult = ReturnType<typeof useGetAllUsersQuery>;
-export type GetAllUsersLazyQueryHookResult = ReturnType<
-  typeof useGetAllUsersLazyQuery
+export type GetAllPlayersQueryHookResult = ReturnType<
+  typeof useGetAllPlayersQuery
 >;
-export type GetAllUsersQueryResult = Apollo.QueryResult<
-  GetAllUsersQuery,
-  GetAllUsersQueryVariables
+export type GetAllPlayersLazyQueryHookResult = ReturnType<
+  typeof useGetAllPlayersLazyQuery
+>;
+export type GetAllPlayersQueryResult = Apollo.QueryResult<
+  GetAllPlayersQuery,
+  GetAllPlayersQueryVariables
 >;
 export const GetUserDocument = gql`
   query getUser($id: ID!) {
