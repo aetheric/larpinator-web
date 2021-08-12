@@ -1,8 +1,6 @@
 import React from "react";
-import ReactDOM from "react-dom";
 import { AppProps } from "next/app";
 import Head from "next/head";
-import Router from "next/router";
 import Admin from "layouts/Admin";
 import {
   ApolloClient,
@@ -22,35 +20,8 @@ const client = new ApolloClient({
     authorization: token ? `Bearer ${token}` : "",
   },
 });
-import PageChange from "components/PageChange/PageChange";
 
 import { useGetCurrentUserQuery, User } from "../src/generated/graphql";
-
-Router.events.on("routeChangeStart", (url) => {
-  console.log(`Loading: ${url}`);
-  document.body.classList.add("body-page-transition");
-  ReactDOM.render(
-    <PageChange path={url} />,
-
-    document.getElementById("page-transition")
-  );
-});
-Router.events.on("routeChangeComplete", () => {
-  const el = document.getElementById("page-transition");
-  if (el) {
-    ReactDOM.unmountComponentAtNode(el);
-  }
-
-  document.body.classList.remove("body-page-transition");
-});
-Router.events.on("routeChangeError", () => {
-  const el = document.getElementById("page-transition");
-  if (el) {
-    ReactDOM.unmountComponentAtNode(el);
-  }
-
-  document.body.classList.remove("body-page-transition");
-});
 
 const GET_CURRENT_USER = gql`
   query getCurrentUser {
