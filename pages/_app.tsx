@@ -41,7 +41,6 @@ const client = new ApolloClient({
 });
 import PageChange from "components/PageChange/PageChange";
 
-import "assets/css/nextjs-material-dashboard.css?v=1.1.0";
 import { useGetCurrentUserQuery, User } from "../src/generated/graphql";
 
 Router.events.on("routeChangeStart", (url) => {

@@ -7,17 +7,12 @@ import { useFormik } from "formik";
 import Cookies from "js-cookie";
 import Router from "next/router";
 import { useLoginMutation } from "../../src/generated/graphql";
-import { makeStyles, Theme } from "@material-ui/core/styles";
-import styles from "../../assets/jss/nextjs-material-dashboard/views/loginPage";
-
-const useStyles = makeStyles<Theme>(() => styles as any);
 
 interface LoginFormProps {
   onSelectRegisterForm: () => void;
 }
 
 export const LoginForm: FC<LoginFormProps> = (props) => {
-  const classes = useStyles();
   const loginFormik = useFormik({
     initialValues: {
       email: "",
@@ -47,7 +42,6 @@ export const LoginForm: FC<LoginFormProps> = (props) => {
   };
   return (
     <form
-      className={classes.form}
       onSubmit={(event) => {
         event.preventDefault();
         loginFormik.handleSubmit(event);

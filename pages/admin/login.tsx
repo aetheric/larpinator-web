@@ -1,18 +1,10 @@
 import React, { FC, useEffect } from "react";
-// @material-ui/core components
-import { makeStyles, Theme } from "@material-ui/core/styles";
-import Card from "components/Card/Card";
-import CardBody from "components/Card/CardBody";
-import CardHeader from "components/Card/CardHeader";
 
-import styles from "assets/jss/nextjs-material-dashboard/views/loginPage";
 import { gql } from "@apollo/client";
-import { Container } from "@material-ui/core";
 import { AuthContext } from "../_app";
 import { LoginForm } from "../../components/Auth/auth.login";
 import { RegisterForm } from "../../components/Auth/auth.register";
-
-const useStyles = makeStyles<Theme>(() => styles as any);
+import { StyledButton } from "../../components/Button/Buttons";
 
 const LOGIN = gql`
   mutation Login($input: LoginInput!) {
@@ -54,13 +46,6 @@ const ShowForm: FC = () => {
 };
 
 export default function LoginPage(props: any) {
-  const [cardAnimation, setCardAnimation] = React.useState("cardHidden");
-
-  setTimeout(function () {
-    setCardAnimation("");
-  }, 700);
-  const classes = useStyles();
-
   return (
     <AuthContext.Consumer>
       {(value) => {
@@ -68,24 +53,15 @@ export default function LoginPage(props: any) {
         console.log(currentUser);
         return (
           <div
-            className={classes.pageHeader}
             style={{
               backgroundImage: "url('/login-bg.jpeg')",
               backgroundSize: "cover",
               backgroundPosition: "top center",
             }}
           >
-            <div className={classes.container}>
-              <Container maxWidth="sm">
-                <Card className={classes[cardAnimation]}>
-                  <CardHeader color="primary" className={classes.cardHeader}>
-                    <h4>Welcome to larpinator</h4>
-                  </CardHeader>
-                  <CardBody>
-                    {!currentUser ? <ShowForm /> : <p>loggedin</p>}
-                  </CardBody>
-                </Card>
-              </Container>
+            <div>
+              <StyledButton>dsfsfda</StyledButton>
+              <ShowForm />
             </div>
           </div>
         );
