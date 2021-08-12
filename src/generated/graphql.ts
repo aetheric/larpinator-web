@@ -50,6 +50,7 @@ export type Query = {
   __typename?: "Query";
   getUserById: User;
   getCurrentUser: User;
+  getAllUsers: Array<User>;
 };
 
 export type QueryGetUserByIdArgs = {
@@ -108,6 +109,14 @@ export type RegisterMutation = { __typename?: "Mutation" } & {
   register: { __typename?: "RegisterStatusDto" } & Pick<
     RegisterStatusDto,
     "success" | "message"
+  >;
+};
+
+export type GetAllUsersQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetAllUsersQuery = { __typename?: "Query" } & {
+  getAllUsers: Array<
+    { __typename?: "User" } & Pick<User, "id" | "name" | "email" | "isActive">
   >;
 };
 
@@ -221,6 +230,48 @@ export type RegisterMutationResult = Apollo.MutationResult<RegisterMutation>;
 export type RegisterMutationOptions = Apollo.BaseMutationOptions<
   RegisterMutation,
   RegisterMutationVariables
+>;
+export const GetAllUsersDocument = gql`
+  query getAllUsers {
+    getAllUsers {
+      id
+      name
+      email
+      isActive
+    }
+  }
+`;
+export function useGetAllUsersQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    GetAllUsersQuery,
+    GetAllUsersQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetAllUsersQuery, GetAllUsersQueryVariables>(
+    GetAllUsersDocument,
+    options
+  );
+}
+export function useGetAllUsersLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetAllUsersQuery,
+    GetAllUsersQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetAllUsersQuery, GetAllUsersQueryVariables>(
+    GetAllUsersDocument,
+    options
+  );
+}
+export type GetAllUsersQueryHookResult = ReturnType<typeof useGetAllUsersQuery>;
+export type GetAllUsersLazyQueryHookResult = ReturnType<
+  typeof useGetAllUsersLazyQuery
+>;
+export type GetAllUsersQueryResult = Apollo.QueryResult<
+  GetAllUsersQuery,
+  GetAllUsersQueryVariables
 >;
 export const GetUserDocument = gql`
   query getUser($id: ID!) {
