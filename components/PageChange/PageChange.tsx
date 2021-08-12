@@ -4,12 +4,8 @@ import React from "react";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
-// core components
-import { infoColor, title } from "assets/jss/nextjs-material-dashboard";
-
 const styles = {
   progress: {
-    color: infoColor,
     width: "6rem !important",
     height: "6rem !important",
   },
@@ -26,7 +22,6 @@ const styles = {
     display: "block",
   },
   title: {
-    ...title,
     color: "#FFFFFF",
   },
 };

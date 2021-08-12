@@ -28,6 +28,7 @@ import {
   InMemoryCache,
 } from "@apollo/client";
 import Cookies from "js-cookie";
+import "antd/dist/antd.css";
 
 const token = Cookies.get("token");
 
