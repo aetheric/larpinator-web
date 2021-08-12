@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import { useFormik } from "formik";
 import Cookies from "js-cookie";
 import Router from "next/router";
-import { useLoginMutation } from "../../src/generated/graphql";
+import { useLoginMutation } from "src/generated/graphql";
 import { Form, Button, Input, Space, Divider } from "antd";
 
 import { MailFilled } from "@ant-design/icons";

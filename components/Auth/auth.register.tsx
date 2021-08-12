@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 
 import { useFormik } from "formik";
-import { useRegisterMutation } from "../../src/generated/graphql";
+import { useRegisterMutation } from "src/generated/graphql";
 import { Button, Input, Space, Form, Divider } from "antd";
 import { MailFilled, UserOutlined } from "@ant-design/icons";
 import * as Yup from "yup";
