@@ -1,7 +1,9 @@
 import React from "react";
 import { AppProps } from "next/app";
 import Head from "next/head";
+import Router from "next/router";
 import Admin from "layouts/Admin";
+import NProgress from "nprogress";
 import {
   ApolloClient,
   ApolloProvider,
@@ -10,6 +12,7 @@ import {
 } from "@apollo/client";
 import Cookies from "js-cookie";
 import "antd/dist/antd.css";
+import "nprogress/nprogress.css";
 
 const token = Cookies.get("token");
 
@@ -77,5 +80,15 @@ function MyAppInner({ Component, router, pageProps }: AppProps) {
     </AuthContext.Provider>
   );
 }
+
+Router.events.on("routeChangeStart", (url) => {
+  NProgress.start();
+});
+Router.events.on("routeChangeComplete", () => {
+  NProgress.done();
+});
+Router.events.on("routeChangeError", () => {
+  NProgress.done();
+});
 
 export default MyApp;
