@@ -28,7 +28,7 @@ export default function Admin({ children, ...rest }: any) {
               <a href="/admin/login">Login</a>
             </Menu.Item>
             <Menu.Item key="sub2" icon={<LaptopOutlined />}>
-              <a href="/admin/users">Manage Players</a>
+              <a href="/admin/players">Manage Players</a>
             </Menu.Item>
           </Menu>
         </Sider>

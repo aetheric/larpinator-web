@@ -2,7 +2,7 @@ import React, { FC } from "react";
 
 import { useFormik } from "formik";
 import { useRegisterMutation } from "src/generated/graphql";
-import { Button, Input, Space, Form, Divider } from "antd";
+import { Button, Input, Space, Form, Divider, Radio, message } from "antd";
 import { MailFilled, UserOutlined } from "@ant-design/icons";
 import * as Yup from "yup";
 
@@ -15,12 +15,14 @@ export const RegisterForm: FC<LoginFormProps> = (props) => {
     name: Yup.string().required("Required"),
     email: Yup.string().email("Invalid email").required("Required"),
     password: Yup.string().required("Required"),
+    gender: Yup.string().required("Required"),
   });
   const { errors, values, handleSubmit, handleChange } = useFormik({
     initialValues: {
       name: "",
       email: "",
       password: "",
+      gender: "male",
     },
     validationSchema,
     validateOnChange: true,
@@ -31,10 +33,12 @@ export const RegisterForm: FC<LoginFormProps> = (props) => {
             name: String(values.name).trim(),
             email: String(values.email).trim(),
             password: values.password,
+            gender: values.gender,
           },
         },
       }).then((r) => {
         if (r.data?.register.success) {
+          message.success("User is successfully registered. Please login!");
           selectLoginForm();
         }
       });
@@ -82,6 +86,19 @@ export const RegisterForm: FC<LoginFormProps> = (props) => {
           value={values.password}
           onChange={handleChange}
         />
+      </Form.Item>
+      <Form.Item
+        validateStatus={errors.gender ? "error" : "success"}
+        help={errors.gender}
+      >
+        <Radio.Group
+          value={values.gender}
+          onChange={handleChange}
+          name="gender"
+        >
+          <Radio value="male">Male</Radio>
+          <Radio value="female">Female</Radio>
+        </Radio.Group>
       </Form.Item>
       <Divider />
       <Space direction="vertical" size="middle" style={{ width: "100%" }}>

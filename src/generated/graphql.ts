@@ -62,6 +62,7 @@ export type RegisterInput = {
   name: Scalars["String"];
   email: Scalars["String"];
   password: Scalars["String"];
+  gender: Scalars["String"];
 };
 
 export type RegisterStatusDto = {
@@ -124,14 +125,6 @@ export type GetAllPlayersQuery = { __typename?: "Query" } & {
       "id" | "name" | "gender" | "role" | "email" | "isActive"
     >
   >;
-};
-
-export type GetUserQueryVariables = Exact<{
-  id: Scalars["ID"];
-}>;
-
-export type GetUserQuery = { __typename?: "Query" } & {
-  getUserById: { __typename?: "User" } & Pick<User, "id" | "email">;
 };
 
 export const GetCurrentUserDocument = gql`
@@ -282,36 +275,4 @@ export type GetAllPlayersLazyQueryHookResult = ReturnType<
 export type GetAllPlayersQueryResult = Apollo.QueryResult<
   GetAllPlayersQuery,
   GetAllPlayersQueryVariables
->;
-export const GetUserDocument = gql`
-  query getUser($id: ID!) {
-    getUserById(id: $id) {
-      id
-      email
-    }
-  }
-`;
-export function useGetUserQuery(
-  baseOptions: Apollo.QueryHookOptions<GetUserQuery, GetUserQueryVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetUserQuery, GetUserQueryVariables>(
-    GetUserDocument,
-    options
-  );
-}
-export function useGetUserLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<GetUserQuery, GetUserQueryVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GetUserQuery, GetUserQueryVariables>(
-    GetUserDocument,
-    options
-  );
-}
-export type GetUserQueryHookResult = ReturnType<typeof useGetUserQuery>;
-export type GetUserLazyQueryHookResult = ReturnType<typeof useGetUserLazyQuery>;
-export type GetUserQueryResult = Apollo.QueryResult<
-  GetUserQuery,
-  GetUserQueryVariables
 >;
