@@ -5,6 +5,8 @@ import { AuthContext } from "../_app";
 import { LoginForm } from "../../components/Auth/auth.login";
 import { RegisterForm } from "../../components/Auth/auth.register";
 import { StyledButton } from "../../components/Button/Buttons";
+import { Card } from "antd";
+import styles from "styles/components/Login.module.css";
 
 const LOGIN = gql`
   mutation Login($input: LoginInput!) {
@@ -53,16 +55,19 @@ export default function LoginPage(props: any) {
         console.log(currentUser);
         return (
           <div
+            className={styles.pageContainer}
             style={{
               backgroundImage: "url('/login-bg.jpeg')",
-              backgroundSize: "cover",
-              backgroundPosition: "top center",
             }}
           >
-            <div>
-              <StyledButton>dsfsfda</StyledButton>
+            <Card
+              title="Welcome to Larpinator"
+              bordered={false}
+              style={{ width: 300 }}
+              className={styles.loginCard}
+            >
               <ShowForm />
-            </div>
+            </Card>
           </div>
         );
       }}

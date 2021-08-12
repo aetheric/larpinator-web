@@ -1,0 +1,13 @@
+.pageContainer {
+    text-align: center;
+    background-size: cover;
+    background-position: top center;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+.loginCard {
+    margin: auto;
+}
