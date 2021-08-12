@@ -5,7 +5,7 @@ import { UserOutlined, LaptopOutlined } from "@ant-design/icons";
 
 const { Header, Content, Sider } = Layout;
 
-export default function Admin(props: any) {
+export default function Admin({ children, ...rest }: any) {
   return (
     <Layout>
       <Header className="header">
@@ -25,7 +25,7 @@ export default function Admin(props: any) {
             style={{ height: "100%", borderRight: 0 }}
           >
             <Menu.Item key="sub1" icon={<UserOutlined />}>
-              Login
+              <a href="/admin/login">Login</a>
             </Menu.Item>
             <Menu.Item key="sub2" icon={<LaptopOutlined />}>
               Users
@@ -41,7 +41,7 @@ export default function Admin(props: any) {
               minHeight: 280,
             }}
           >
-            Content
+            {children}
           </Content>
         </Layout>
       </Layout>
