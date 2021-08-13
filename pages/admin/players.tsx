@@ -29,7 +29,7 @@ function Players() {
   }
 
   return (
-    <Table dataSource={data?.getAllPlayers}>
+    <Table dataSource={data?.getAllPlayers} rowKey="id">
       <Column title="ID" dataIndex="id" key="id" />
       <Column title="Name" dataIndex="name" key="name" />
       <Column title="Gender" dataIndex="gender" key="gender" />

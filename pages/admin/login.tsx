@@ -33,9 +33,9 @@ const ShowForm: FC = () => {
     setFormType("login");
   };
 
-  useEffect(() => {
-    console.log(`formType changed: ${formType}`);
-  }, [formType]);
+  // useEffect(() => {
+  //   console.log(`formType changed: ${formType}`);
+  // }, [formType]);
 
   if (formType === "login") {
     return <LoginForm onSelectRegisterForm={selectRegisterForm} />;

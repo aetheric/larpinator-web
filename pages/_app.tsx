@@ -13,6 +13,8 @@ import {
 import Cookies from "js-cookie";
 import "antd/dist/antd.css";
 import "nprogress/nprogress.css";
+import "styles/bootstrap-grid.min.css";
+import "styles/Global.css";
 
 const token = Cookies.get("token");
 
