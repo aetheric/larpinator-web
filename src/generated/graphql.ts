@@ -20,6 +20,27 @@ export type Scalars = {
   DateTime: any;
 };
 
+export type CreateLarpInput = {
+  title: Scalars["String"];
+  description: Scalars["String"];
+  isPublished: Scalars["Boolean"];
+  startAt: Scalars["DateTime"];
+  endAt: Scalars["DateTime"];
+};
+
+export type Larp = {
+  __typename?: "Larp";
+  id: Scalars["ID"];
+  title: Scalars["String"];
+  description: Scalars["String"];
+  isPublished: Scalars["Boolean"];
+  startAt: Scalars["DateTime"];
+  endAt: Scalars["DateTime"];
+  createdAt: Scalars["DateTime"];
+  updatedAt: Scalars["DateTime"];
+  deletedAt: Scalars["DateTime"];
+};
+
 export type LoginInput = {
   email: Scalars["String"];
   password: Scalars["String"];
@@ -36,6 +57,9 @@ export type Mutation = {
   __typename?: "Mutation";
   register: RegisterStatusDto;
   login: LoginStatusDto;
+  createLarp: Larp;
+  updateLarp: Larp;
+  removeLarp: Larp;
 };
 
 export type MutationRegisterArgs = {
@@ -46,23 +70,40 @@ export type MutationLoginArgs = {
   input: LoginInput;
 };
 
+export type MutationCreateLarpArgs = {
+  input: CreateLarpInput;
+};
+
+export type MutationUpdateLarpArgs = {
+  updateLarpInput: UpdateLarpInput;
+};
+
+export type MutationRemoveLarpArgs = {
+  id: Scalars["Int"];
+};
+
 export type Query = {
   __typename?: "Query";
   getUserById: User;
   getCurrentUser: User;
   getAllUsers: Array<User>;
   getAllPlayers: Array<User>;
+  larps: Array<Larp>;
+  larp: Larp;
 };
 
 export type QueryGetUserByIdArgs = {
   id: Scalars["ID"];
 };
 
+export type QueryLarpArgs = {
+  id: Scalars["Int"];
+};
+
 export type RegisterInput = {
   name: Scalars["String"];
   email: Scalars["String"];
   password: Scalars["String"];
-  gender: Scalars["String"];
 };
 
 export type RegisterStatusDto = {
@@ -71,13 +112,21 @@ export type RegisterStatusDto = {
   message: Scalars["String"];
 };
 
+export type UpdateLarpInput = {
+  title: Scalars["String"];
+  description: Scalars["String"];
+  isPublished: Scalars["Boolean"];
+  startAt: Scalars["DateTime"];
+  endAt: Scalars["DateTime"];
+  id: Scalars["Float"];
+};
+
 export type User = {
   __typename?: "User";
   id: Scalars["ID"];
   name: Scalars["String"];
   email: Scalars["String"];
   role: Scalars["String"];
-  gender?: Maybe<Scalars["String"]>;
   password: Scalars["String"];
   isActive: Scalars["Boolean"];
   createdAt: Scalars["DateTime"];
@@ -122,7 +171,7 @@ export type GetAllPlayersQuery = { __typename?: "Query" } & {
   getAllPlayers: Array<
     { __typename?: "User" } & Pick<
       User,
-      "id" | "name" | "gender" | "role" | "email" | "isActive"
+      "id" | "name" | "role" | "email" | "isActive"
     >
   >;
 };
@@ -235,7 +284,6 @@ export const GetAllPlayersDocument = gql`
     getAllPlayers {
       id
       name
-      gender
       role
       email
       isActive

@@ -10,7 +10,6 @@ const GET_ALL_USERS = gql`
     getAllPlayers {
       id
       name
-      gender
       role
       email
       isActive
@@ -32,7 +31,6 @@ function Players() {
     <Table dataSource={data?.getAllPlayers} rowKey="id">
       <Column title="ID" dataIndex="id" key="id" />
       <Column title="Name" dataIndex="name" key="name" />
-      <Column title="Gender" dataIndex="gender" key="gender" />
       <Column title="Email" dataIndex="email" key="email" />
     </Table>
   );

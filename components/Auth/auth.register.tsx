@@ -15,14 +15,12 @@ export const RegisterForm: FC<LoginFormProps> = (props) => {
     name: Yup.string().required("Required"),
     email: Yup.string().email("Invalid email").required("Required"),
     password: Yup.string().required("Required"),
-    gender: Yup.string().required("Required"),
   });
   const { errors, values, handleSubmit, handleChange } = useFormik({
     initialValues: {
       name: "",
       email: "",
       password: "",
-      gender: "male",
     },
     validationSchema,
     validateOnChange: true,
@@ -33,7 +31,6 @@ export const RegisterForm: FC<LoginFormProps> = (props) => {
             name: String(values.name).trim(),
             email: String(values.email).trim(),
             password: values.password,
-            gender: values.gender,
           },
         },
       }).then((r) => {
@@ -86,19 +83,6 @@ export const RegisterForm: FC<LoginFormProps> = (props) => {
           value={values.password}
           onChange={handleChange}
         />
-      </Form.Item>
-      <Form.Item
-        validateStatus={errors.gender ? "error" : "success"}
-        help={errors.gender}
-      >
-        <Radio.Group
-          value={values.gender}
-          onChange={handleChange}
-          name="gender"
-        >
-          <Radio value="male">Male</Radio>
-          <Radio value="female">Female</Radio>
-        </Radio.Group>
       </Form.Item>
       <Divider />
       <Space direction="vertical" size="middle" style={{ width: "100%" }}>
