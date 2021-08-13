@@ -143,6 +143,17 @@ export type GetCurrentUserQuery = { __typename?: "Query" } & {
   >;
 };
 
+export type CreateLarpMutationVariables = Exact<{
+  input: CreateLarpInput;
+}>;
+
+export type CreateLarpMutation = { __typename?: "Mutation" } & {
+  createLarp: { __typename?: "Larp" } & Pick<
+    Larp,
+    "title" | "description" | "startAt" | "endAt" | "isPublished" | "createdAt"
+  >;
+};
+
 export type LoginMutationVariables = Exact<{
   input: LoginInput;
 }>;
@@ -219,6 +230,43 @@ export type GetCurrentUserLazyQueryHookResult = ReturnType<
 export type GetCurrentUserQueryResult = Apollo.QueryResult<
   GetCurrentUserQuery,
   GetCurrentUserQueryVariables
+>;
+export const CreateLarpDocument = gql`
+  mutation createLarp($input: CreateLarpInput!) {
+    createLarp(input: $input) {
+      title
+      description
+      startAt
+      endAt
+      isPublished
+      createdAt
+    }
+  }
+`;
+export type CreateLarpMutationFn = Apollo.MutationFunction<
+  CreateLarpMutation,
+  CreateLarpMutationVariables
+>;
+export function useCreateLarpMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CreateLarpMutation,
+    CreateLarpMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<CreateLarpMutation, CreateLarpMutationVariables>(
+    CreateLarpDocument,
+    options
+  );
+}
+export type CreateLarpMutationHookResult = ReturnType<
+  typeof useCreateLarpMutation
+>;
+export type CreateLarpMutationResult =
+  Apollo.MutationResult<CreateLarpMutation>;
+export type CreateLarpMutationOptions = Apollo.BaseMutationOptions<
+  CreateLarpMutation,
+  CreateLarpMutationVariables
 >;
 export const LoginDocument = gql`
   mutation Login($input: LoginInput!) {
