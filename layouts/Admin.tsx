@@ -11,6 +11,7 @@ import {
   faDragon,
   faUserNinja,
   faDiceD20,
+  faPhotoVideo,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 export default function Admin({ children, ...rest }: any) {
@@ -48,6 +49,9 @@ export default function Admin({ children, ...rest }: any) {
           </Menu.Item>
           <Menu.Item key="sub3" icon={<FontAwesomeIcon icon={faDiceD20} />}>
             <a href="/admin/larps">Manage Larps</a>
+          </Menu.Item>
+          <Menu.Item key="sub4" icon={<FontAwesomeIcon icon={faPhotoVideo} />}>
+            <a href="/admin/plots">Manage Plots</a>
           </Menu.Item>
         </Menu>
       </Sider>

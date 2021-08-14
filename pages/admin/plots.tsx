@@ -1,20 +1,17 @@
 import React, { FC, useEffect } from "react";
 
 import { AuthContext } from "pages/_app";
-import dynamic from "next/dynamic";
-const DynamicCalendar = dynamic(
-  () => import("components/Plots/plots.calendar"),
-  {
-    ssr: false,
-  }
-);
+import styles from "styles/components/Login.module.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faDragon } from "@fortawesome/free-solid-svg-icons";
+
 export default function DashboardPage(props: any) {
   return (
     <AuthContext.Consumer>
       {(value) => {
         const { currentUser } = value;
-
-        return <DynamicCalendar />;
+        console.log(currentUser);
+        return <FontAwesomeIcon icon={faDragon} />;
       }}
     </AuthContext.Consumer>
   );
