@@ -1,0 +1,8 @@
+.site-layout-background {
+    background: #fff;
+}
+.larp-size-menu .ant-menu-item{
+    font-size: 16px !important;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}

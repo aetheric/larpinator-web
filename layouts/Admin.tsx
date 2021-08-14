@@ -1,56 +1,90 @@
+import { Layout, Menu } from "antd";
+import {
+  MenuUnfoldOutlined,
+  MenuFoldOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
 import React from "react";
 
-import { Button, Layout, Menu } from "antd";
-import { UserOutlined, LaptopOutlined } from "@ant-design/icons";
+const { Header, Sider, Content } = Layout;
+import {
+  faDragon,
+  faUserNinja,
+  faDiceD20,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
-const { Header, Content, Sider } = Layout;
-import styles from "styles/components/Layout.module.css";
-import { faDragon } from "@fortawesome/free-solid-svg-icons";
 export default function Admin({ children, ...rest }: any) {
+  const [collapsed, setCollapsed] = React.useState(false);
+
   return (
     <Layout style={{ minHeight: "100vh" }}>
-      <Header className="header">
-        <div className="logo" />
-        <Menu theme="dark" mode="horizontal" defaultSelectedKeys={["2"]}>
-          <Menu.Item key="1">
-            <a href="/admin/add-larp">
-              <FontAwesomeIcon icon={faDragon} />
-              <span className="ml-2">Add New Larp</span>
-            </a>
+      <Sider
+        trigger={null}
+        collapsible
+        collapsed={collapsed}
+        className="site-layout-background"
+      >
+        <div
+          className="logo p-4"
+          style={{
+            background: "#139fd7",
+            height: "64px",
+            marginBottom: "20px",
+            color: "#fff",
+          }}
+        >
+          <h4 style={{ color: "#fff" }}>(current larp name)</h4>
+        </div>
+        <Menu
+          className="larp-size-menu"
+          mode="inline"
+          style={{ borderRight: 0 }}
+        >
+          <Menu.Item key="sub1" icon={<UserOutlined />}>
+            <a href="/admin/login">Login</a>
           </Menu.Item>
-          <Menu.Item key="2">nav 2</Menu.Item>
-          <Menu.Item key="3">nav 3</Menu.Item>
+          <Menu.Item key="sub2" icon={<FontAwesomeIcon icon={faUserNinja} />}>
+            <a href="/admin/players">Manage Players</a>
+          </Menu.Item>
+          <Menu.Item key="sub3" icon={<FontAwesomeIcon icon={faDiceD20} />}>
+            <a href="/admin/larps">Manage Larps</a>
+          </Menu.Item>
         </Menu>
-      </Header>
+      </Sider>
       <Layout>
-        <Sider width={200} className="site-layout-background">
+        <Header style={{ paddingLeft: 10 }} className="site-layout-background">
+          {React.createElement(
+            collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
+            {
+              className: "trigger",
+              style: { fontSize: 18 },
+              onClick: () => setCollapsed(!collapsed),
+            }
+          )}
           <Menu
-            mode="inline"
-            defaultSelectedKeys={["1"]}
-            defaultOpenKeys={["sub1"]}
-            style={{ height: "100%", borderRight: 0 }}
+            mode="horizontal"
+            defaultSelectedKeys={["2"]}
+            style={{ float: "right" }}
           >
-            <Menu.Item key="sub1" icon={<UserOutlined />}>
-              <a href="/admin/login">Login</a>
+            <Menu.Item key="1">
+              <a href="/admin/add-larp">
+                <FontAwesomeIcon icon={faDragon} />
+                <span className="ml-2">Add New Larp</span>
+              </a>
             </Menu.Item>
-            <Menu.Item key="sub2" icon={<LaptopOutlined />}>
-              <a href="/admin/players">Manage Players</a>
-            </Menu.Item>
+            <Menu.Item key="2">nav 2</Menu.Item>
+            <Menu.Item key="3">nav 3</Menu.Item>
           </Menu>
-        </Sider>
-        <Layout style={{ padding: "0 24px 24px" }}>
-          <Content
-            className="site-layout-background"
-            style={{
-              padding: 24,
-              margin: 0,
-              minHeight: 280,
-            }}
-          >
-            {children}
-          </Content>
-        </Layout>
+        </Header>
+        <Content
+          style={{
+            margin: "24px 16px",
+            padding: 24,
+            minHeight: 280,
+          }}
+        >
+          {children}
+        </Content>
       </Layout>
     </Layout>
   );

@@ -154,6 +154,24 @@ export type CreateLarpMutation = { __typename?: "Mutation" } & {
   >;
 };
 
+export type GetAllLarpsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetAllLarpsQuery = { __typename?: "Query" } & {
+  larps: Array<
+    { __typename?: "Larp" } & Pick<
+      Larp,
+      | "id"
+      | "title"
+      | "description"
+      | "startAt"
+      | "endAt"
+      | "isPublished"
+      | "createdAt"
+      | "updatedAt"
+    >
+  >;
+};
+
 export type LoginMutationVariables = Exact<{
   input: LoginInput;
 }>;
@@ -267,6 +285,52 @@ export type CreateLarpMutationResult =
 export type CreateLarpMutationOptions = Apollo.BaseMutationOptions<
   CreateLarpMutation,
   CreateLarpMutationVariables
+>;
+export const GetAllLarpsDocument = gql`
+  query getAllLarps {
+    larps {
+      id
+      title
+      description
+      startAt
+      endAt
+      isPublished
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export function useGetAllLarpsQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    GetAllLarpsQuery,
+    GetAllLarpsQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetAllLarpsQuery, GetAllLarpsQueryVariables>(
+    GetAllLarpsDocument,
+    options
+  );
+}
+export function useGetAllLarpsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetAllLarpsQuery,
+    GetAllLarpsQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetAllLarpsQuery, GetAllLarpsQueryVariables>(
+    GetAllLarpsDocument,
+    options
+  );
+}
+export type GetAllLarpsQueryHookResult = ReturnType<typeof useGetAllLarpsQuery>;
+export type GetAllLarpsLazyQueryHookResult = ReturnType<
+  typeof useGetAllLarpsLazyQuery
+>;
+export type GetAllLarpsQueryResult = Apollo.QueryResult<
+  GetAllLarpsQuery,
+  GetAllLarpsQueryVariables
 >;
 export const LoginDocument = gql`
   mutation Login($input: LoginInput!) {

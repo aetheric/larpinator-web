@@ -50,8 +50,8 @@ export default function DashboardPage(props: any) {
       initialValues: {
         title: "",
         description: "",
-        startAt: null,
-        endAt: null,
+        startAt: moment(),
+        endAt: moment(),
       },
       validationSchema,
       validateOnChange: true,
